@@ -339,6 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSensitivity: {fileID: 11400000, guid: 8e78929505653934ba8ffc90172a4559, type: 2}
+  yClamp: {fileID: 11400000, guid: 24106ce7e97f5d8428cb4f37097f096d, type: 2}
 --- !u!1 &8598077429009905546
 GameObject:
   m_ObjectHideFlags: 0
