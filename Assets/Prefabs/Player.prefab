@@ -41,8 +41,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6515726378627604595}
-  - component: {fileID: 6021438738764730091}
-  - component: {fileID: 5070429785906735862}
   m_Layer: 0
   m_Name: CameraLookDirection
   m_TagString: Untagged
@@ -58,79 +56,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3478462992603653108}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.329, z: -1.421}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.4480002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3252096503625588413}
+  m_Father: {fileID: 7425088367840287658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6021438738764730091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3478462992603653108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 28b58e3b3e440884b9366e24356c7f0e, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d0a79b5b-69c1-49d3-9b08-d9fa3120915b
-    m_ActionName: 'Movement/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: faafe3af-7c60-4af4-9e33-de224d4a7a94
-    m_ActionName: 'Movement/Jump[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5070429785906735862}
-        m_TargetAssemblyTypeName: CameraRotate, Assembly-CSharp
-        m_MethodName: OnLook
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 35495779-c7b6-4036-8788-7f262c8cf493
-    m_ActionName: 'Movement/Look[/Mouse/delta]'
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Movement
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &5070429785906735862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3478462992603653108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56f4d1ca36e5db8449bf14e6105dc554, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6077076125779148224
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,8 +96,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6515726378627604595}
-  - {fileID: 6002599131112346846}
+  - {fileID: 7425088367840287658}
   - {fileID: 8060596666293335863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -179,7 +110,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 8
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -275,12 +206,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mRigidBody: {fileID: 5598675124057089431}
-  movementForce: 7.51
+  movementForce: 10
   maxSpeedClamp: 0
   movementSpeed: 0
   jumpForce: 300
   playerTurnSpeed: 50
   mainCam: {fileID: 0}
+  modelHandler: {fileID: 2934702134090716848}
   isGrounded: 0
 --- !u!136 &6596420778097268923
 CapsuleCollider:
@@ -305,6 +237,108 @@ CapsuleCollider:
   m_Height: 1.5215775
   m_Direction: 1
   m_Center: {x: -0.00039312243, y: 0.75225, z: 0}
+--- !u!1 &8214480831589931407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7425088367840287658}
+  - component: {fileID: 2460711704938430637}
+  - component: {fileID: 5686355872515647856}
+  m_Layer: 0
+  m_Name: FrontAndBackRotator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7425088367840287658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8214480831589931407}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.335, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6002599131112346846}
+  - {fileID: 6515726378627604595}
+  m_Father: {fileID: 3252096503625588413}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2460711704938430637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8214480831589931407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 28b58e3b3e440884b9366e24356c7f0e, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d0a79b5b-69c1-49d3-9b08-d9fa3120915b
+    m_ActionName: 'Movement/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: faafe3af-7c60-4af4-9e33-de224d4a7a94
+    m_ActionName: 'Movement/Jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5686355872515647856}
+        m_TargetAssemblyTypeName: CameraRotate, Assembly-CSharp
+        m_MethodName: OnLook
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 35495779-c7b6-4036-8788-7f262c8cf493
+    m_ActionName: 'Movement/Look[/Mouse/delta]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Movement
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &5686355872515647856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8214480831589931407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f4d1ca36e5db8449bf14e6105dc554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraSensitivity: {fileID: 11400000, guid: 8e78929505653934ba8ffc90172a4559, type: 2}
 --- !u!1 &8598077429009905546
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,12 +363,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8598077429009905546}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.28, z: -1.132}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.207}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3252096503625588413}
+  m_Father: {fileID: 7425088367840287658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2018766130550944827
 PrefabInstance:
@@ -1068,13 +1102,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400042, guid: 49f2055d53eeb4e5a92af590a44bddee, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 11400110, guid: 49f2055d53eeb4e5a92af590a44bddee, type: 3}
       propertyPath: stiffnessForce
-      value: 6.74
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 11400114, guid: 49f2055d53eeb4e5a92af590a44bddee, type: 3}
       propertyPath: isWindActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
