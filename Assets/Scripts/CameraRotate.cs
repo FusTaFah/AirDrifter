@@ -18,7 +18,6 @@ public class CameraRotate : MonoBehaviour
         gameObject.transform.rotation = gameObject.transform.rotation * Quaternion.AngleAxis(angleX, Vector3.up) * Quaternion.AngleAxis(angleY, Vector3.left);
         Vector3 eA = gameObject.transform.rotation.eulerAngles;
         float transAngle = eA.x;
-        Debug.Log(eA.x);
         if (eA.x <= 90.0f && eA.x >= 10.0f)
         {
             transAngle = Mathf.Clamp(eA.x, 0.0f, 90.0f - yClamp.value);
