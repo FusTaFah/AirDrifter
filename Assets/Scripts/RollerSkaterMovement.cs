@@ -11,7 +11,7 @@ using static UnityEngine.InputSystem.InputAction;
 public class RollerSkaterMovement : MonoBehaviour
 {
     [SerializeField]
-    private Rigidbody mRigidBody;
+    private Rigidbody rigidBody;
     [SerializeField]
     private float movementForce;
     [SerializeField]
@@ -26,19 +26,31 @@ public class RollerSkaterMovement : MonoBehaviour
     private CinemachineVirtualCameraBase mainCam;
     [SerializeField]
     private GameObject modelHandler;
+    [SerializeField]
+    private GameObject grappleObjectPrefab;
+    [SerializeField]
+    private GameObject grappleObjectInWorld;
 
     private Vector3 movementDirection;
     private bool weMovin;
     private bool jump;
     [SerializeField]
     private bool isGrounded;
+    private ConfigurableJoint playerJoint;
+    private bool grappleToggle;
+
+    public void Start()
+    {
+        playerJoint = gameObject.GetComponent<ConfigurableJoint>();
+        grappleToggle = false;
+    }
 
     public void OnMove(CallbackContext input)
     {
         Vector2 inputDirection = input.ReadValue<Vector2>();
         Vector3 inputDirVec3 = new Vector3(inputDirection.x, 0.0f, inputDirection.y);
         movementDirection = inputDirVec3;
-
+        
         if (input.phase != InputActionPhase.Canceled)
         {
             weMovin = true;
@@ -56,19 +68,34 @@ public class RollerSkaterMovement : MonoBehaviour
         InputActionPhase iap = input.phase;
         if (iap == InputActionPhase.Performed && isGrounded)
         {
-            mRigidBody.AddForce(Vector3.up * jumpForce);
+            rigidBody.AddForce(Vector3.up * jumpForce);
         }
     }
 
-    void Start()
+    public void OnGrapple(CallbackContext input)
     {
-        
+        InputActionPhase iap = input.phase;
+        if(iap == InputActionPhase.Performed)
+        {
+            grappleToggle = !grappleToggle;
+            if (grappleToggle)
+            {
+                GrappleOff(playerJoint);
+                Destroy(grappleObjectInWorld);
+            }
+            else
+            {
+                grappleObjectInWorld = Instantiate(grappleObjectPrefab, new Vector3(-9.192033f, 7.69f, -8.753658f), Quaternion.identity);
+                playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
+                GrappleOn(playerJoint);
+            }
+        }
     }
 
     void Update()
     {
         CheckGrounded();
-        Vector3 facingDirection = mRigidBody.velocity;
+        Vector3 facingDirection = rigidBody.velocity;
         facingDirection.y = 0.0f;
         facingDirection.Normalize();
         modelHandler.transform.forward = Vector3.Lerp(modelHandler.transform.forward, facingDirection, playerTurnSpeed * Time.deltaTime);
@@ -89,7 +116,7 @@ public class RollerSkaterMovement : MonoBehaviour
                 
                 //rotate the inputted direction by the angle between the camera facing vector and forward
                 Vector3 finalMovementDirection = Quaternion.AngleAxis(angleOfRotation, Vector3.Dot(Vector3.right, camFacingDirection) > 0 ? Vector3.up : Vector3.down) * movementDirection;
-                mRigidBody.AddForce(finalMovementDirection * movementForce);
+                rigidBody.AddForce(finalMovementDirection * movementForce * Time.deltaTime);
             }
         }
     }
@@ -104,5 +131,25 @@ public class RollerSkaterMovement : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    private void GrappleOn(ConfigurableJoint jnt)
+    {
+        jnt.xMotion = ConfigurableJointMotion.Limited;
+        jnt.yMotion = ConfigurableJointMotion.Limited;
+        jnt.zMotion = ConfigurableJointMotion.Limited;
+        jnt.angularXMotion = ConfigurableJointMotion.Free;
+        jnt.angularYMotion = ConfigurableJointMotion.Free;
+        jnt.angularZMotion = ConfigurableJointMotion.Free;
+    }
+
+    private void GrappleOff(ConfigurableJoint jnt)
+    {
+        jnt.xMotion = ConfigurableJointMotion.Free;
+        jnt.yMotion = ConfigurableJointMotion.Free;
+        jnt.zMotion = ConfigurableJointMotion.Free;
+        jnt.angularXMotion = ConfigurableJointMotion.Free;
+        jnt.angularYMotion = ConfigurableJointMotion.Free;
+        jnt.angularZMotion = ConfigurableJointMotion.Free;
     }
 }
