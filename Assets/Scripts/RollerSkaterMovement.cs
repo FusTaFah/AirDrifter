@@ -85,7 +85,7 @@ public class RollerSkaterMovement : MonoBehaviour
             }
             else
             {
-                grappleObjectInWorld = Instantiate(grappleObjectPrefab, new Vector3(-9.192033f, 7.69f, -8.753658f), Quaternion.identity);
+                grappleObjectInWorld = Instantiate(grappleObjectPrefab, new Vector3(playerJoint.transform.position.x, 7.69f, playerJoint.transform.position.z), Quaternion.identity);
                 playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
                 GrappleOn(playerJoint);
             }
