@@ -30,6 +30,13 @@ public class RollerSkaterMovement : MonoBehaviour
     private GameObject grappleObjectPrefab;
     [SerializeField]
     private GameObject grappleObjectInWorld;
+    [SerializeField]
+    private GameObject grappleLineRendererPrefab;
+    [SerializeField]
+    private GameObject grappleLineRendererInWorld;
+    [SerializeField]
+    private FloatObject groundedTolerance;
+    private LineRenderer grappleLineRenderer;
 
     private Vector3 movementDirection;
     private bool weMovin;
@@ -43,6 +50,9 @@ public class RollerSkaterMovement : MonoBehaviour
     {
         playerJoint = gameObject.GetComponent<ConfigurableJoint>();
         grappleToggle = false;
+        grappleLineRendererInWorld = Instantiate(grappleLineRendererPrefab);
+        grappleLineRenderer = grappleLineRendererInWorld.GetComponent<LineRenderer>();
+        grappleLineRenderer.enabled = false;
     }
 
     public void OnMove(CallbackContext input)
@@ -80,14 +90,14 @@ public class RollerSkaterMovement : MonoBehaviour
             grappleToggle = !grappleToggle;
             if (grappleToggle)
             {
-                GrappleOff(playerJoint);
-                Destroy(grappleObjectInWorld);
-            }
-            else
-            {
                 grappleObjectInWorld = Instantiate(grappleObjectPrefab, new Vector3(playerJoint.transform.position.x, 7.69f, playerJoint.transform.position.z), Quaternion.identity);
                 playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
                 GrappleOn(playerJoint);
+            }
+            else
+            {
+                GrappleOff(playerJoint);
+                Destroy(grappleObjectInWorld);
             }
         }
     }
@@ -119,11 +129,22 @@ public class RollerSkaterMovement : MonoBehaviour
                 rigidBody.AddForce(finalMovementDirection * movementForce * Time.deltaTime);
             }
         }
+
+        RenderGrapple();
+    }
+
+    private void RenderGrapple()
+    {
+        if (grappleToggle)
+        {
+            Vector3[] positions = new Vector3[] { rigidBody.transform.position, grappleObjectInWorld.transform.position };
+            grappleLineRenderer.SetPositions(positions);
+        }
     }
 
     private void CheckGrounded()
     {
-        if (Physics.Raycast(gameObject.transform.position, Vector3.down, 0.02f))
+        if (Physics.Raycast(gameObject.transform.position, Vector3.down, groundedTolerance.value))
         {
             isGrounded = true;
         }
@@ -141,6 +162,7 @@ public class RollerSkaterMovement : MonoBehaviour
         jnt.angularXMotion = ConfigurableJointMotion.Free;
         jnt.angularYMotion = ConfigurableJointMotion.Free;
         jnt.angularZMotion = ConfigurableJointMotion.Free;
+        grappleLineRenderer.enabled = true;
     }
 
     private void GrappleOff(ConfigurableJoint jnt)
@@ -151,5 +173,6 @@ public class RollerSkaterMovement : MonoBehaviour
         jnt.angularXMotion = ConfigurableJointMotion.Free;
         jnt.angularYMotion = ConfigurableJointMotion.Free;
         jnt.angularZMotion = ConfigurableJointMotion.Free;
+        grappleLineRenderer.enabled = false;
     }
 }

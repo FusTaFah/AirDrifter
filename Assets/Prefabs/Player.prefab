@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13431bb917a4a6d4999332726ee33cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mRigidBody: {fileID: 5598675124057089431}
+  rigidBody: {fileID: 0}
   movementForce: 10
   maxSpeedClamp: 0
   movementSpeed: 0
@@ -230,7 +230,11 @@ MonoBehaviour:
   playerTurnSpeed: 50
   mainCam: {fileID: 0}
   modelHandler: {fileID: 2934702134090716848}
-  grapplePosition: {fileID: 0}
+  grappleObjectPrefab: {fileID: 0}
+  grappleObjectInWorld: {fileID: 0}
+  grappleLineRendererPrefab: {fileID: 7099475432794461839, guid: 1859f794a3560ef4f893023abbbf422d, type: 3}
+  grappleLineRendererInWorld: {fileID: 0}
+  groundedTolerance: {fileID: 11400000, guid: 20eedd44ec8e43546a22dfee3c878df4, type: 2}
   isGrounded: 0
 --- !u!136 &6596420778097268923
 CapsuleCollider:
