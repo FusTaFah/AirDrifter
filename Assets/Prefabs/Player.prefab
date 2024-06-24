@@ -126,7 +126,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &5656803599524005181
 MonoBehaviour:
@@ -222,19 +222,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13431bb917a4a6d4999332726ee33cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidBody: {fileID: 0}
-  movementForce: 10
-  maxSpeedClamp: 0
+  rigidBody: {fileID: 5598675124057089431}
+  movementForce: 2000
   movementSpeed: 0
+  maximumSkateUpSpeed: {fileID: 0}
+  maximumSkateSpeed: {fileID: 0}
   jumpForce: 300
   playerTurnSpeed: 50
   mainCam: {fileID: 0}
   modelHandler: {fileID: 2934702134090716848}
-  grappleObjectPrefab: {fileID: 0}
-  grappleObjectInWorld: {fileID: 0}
+  grappleObjectPrefab: {fileID: 6338101842543391023, guid: 63778f4bfbd5cae439bbc6350aecfd6d, type: 3}
   grappleLineRendererPrefab: {fileID: 7099475432794461839, guid: 1859f794a3560ef4f893023abbbf422d, type: 3}
-  grappleLineRendererInWorld: {fileID: 0}
   groundedTolerance: {fileID: 11400000, guid: 20eedd44ec8e43546a22dfee3c878df4, type: 2}
+  cameraLookPosition: {fileID: 8598077429009905546}
   isGrounded: 0
 --- !u!136 &6596420778097268923
 CapsuleCollider:
@@ -274,12 +274,12 @@ ConfigurableJoint:
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
-  m_XMotion: 0
-  m_YMotion: 0
-  m_ZMotion: 0
+  m_XMotion: 2
+  m_YMotion: 2
+  m_ZMotion: 2
   m_AngularXMotion: 2
-  m_AngularYMotion: 0
-  m_AngularZMotion: 0
+  m_AngularYMotion: 2
+  m_AngularZMotion: 2
   m_LinearLimitSpring:
     spring: 0
     damper: 0
@@ -445,6 +445,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 35495779-c7b6-4036-8788-7f262c8cf493
     m_ActionName: 'Movement/Look[/Mouse/delta]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 09cdbc4a-4300-4505-badf-a563b96a8392
+    m_ActionName: 'Movement/GrappleHook[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Movement

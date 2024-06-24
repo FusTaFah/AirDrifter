@@ -15,9 +15,11 @@ public class RollerSkaterMovement : MonoBehaviour
     [SerializeField]
     private float movementForce;
     [SerializeField]
-    private float maxSpeedClamp;
-    [SerializeField]
     private float movementSpeed;
+    [SerializeField]
+    private FloatObject maximumSkateUpSpeed;
+    [SerializeField]
+    private FloatObject maximumSkateSpeed;
     [SerializeField]
     private float jumpForce;
     [SerializeField]
@@ -28,14 +30,13 @@ public class RollerSkaterMovement : MonoBehaviour
     private GameObject modelHandler;
     [SerializeField]
     private GameObject grappleObjectPrefab;
-    [SerializeField]
     private GameObject grappleObjectInWorld;
     [SerializeField]
     private GameObject grappleLineRendererPrefab;
-    [SerializeField]
     private GameObject grappleLineRendererInWorld;
     [SerializeField]
     private FloatObject groundedTolerance;
+ 
     private LineRenderer grappleLineRenderer;
 
     private Vector3 movementDirection;
@@ -87,15 +88,68 @@ public class RollerSkaterMovement : MonoBehaviour
         InputActionPhase iap = input.phase;
         if(iap == InputActionPhase.Performed)
         {
-            grappleToggle = !grappleToggle;
-            if (grappleToggle)
+            Vector3 lookingDirection = mainCam.transform.forward;
+            Vector3 cameraPosition = mainCam.transform.position;
+            RaycastHit hit;
+            if (!grappleToggle)
             {
-                grappleObjectInWorld = Instantiate(grappleObjectPrefab, new Vector3(playerJoint.transform.position.x, 7.69f, playerJoint.transform.position.z), Quaternion.identity);
-                playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
-                GrappleOn(playerJoint);
+                Collider[] buildingsSurrounding = Physics.OverlapSphere(rigidBody.position + Vector3.up * 40.0f, 40.0f);
+                Vector3 directionOfMomentum = rigidBody.velocity.normalized;
+                Vector3 testDirection = lookingDirection;
+                Collider grappleCandidate = null;
+                float smallestAngle = 90.0f;
+                foreach (Collider building in buildingsSurrounding)
+                {
+                    if(building.gameObject != gameObject)
+                    {
+                        Vector3 playerToBuilding = (building.transform.position - rigidBody.position).normalized;
+                        float currentAngle = Vector3.Angle(testDirection, playerToBuilding);
+                        if (currentAngle < smallestAngle)
+                        {
+                            smallestAngle = currentAngle;
+                            grappleCandidate = building;
+                        }
+                    }
+                }
+                if (grappleCandidate != null)
+                {
+                    Vector3 grapplePosition = new Vector3();
+                    Vector3 playerToBuilding = grappleCandidate.transform.position - rigidBody.position;
+                    playerToBuilding.y = 0.0f;
+                    playerToBuilding.Normalize();
+                    Vector3 axisForward = Vector3.Cross(Vector3.up, playerToBuilding);
+                    Vector3 axisRight = Vector3.Cross(axisForward, Vector3.up);
+                    Vector3 candidateForward = grappleCandidate.ClosestPointOnBounds(rigidBody.position + axisForward * 40.0f + Vector3.up * 40.0f);
+                    Vector3 candidateRight = grappleCandidate.ClosestPointOnBounds(rigidBody.position + axisRight * 40.0f + Vector3.up * 40.0f);
+                    float candidateForwardAngle = Vector3.Angle(testDirection, candidateForward);
+                    float candidateRightAngle = Vector3.Angle(testDirection, candidateRight);
+                    if(candidateForwardAngle < candidateRightAngle)
+                    {
+                        grapplePosition = candidateForward;
+                    }
+                    else
+                    {
+                        grapplePosition = candidateRight;
+                    }
+                    //grappleCandidate.ClosestPoint()
+                    grappleToggle = true;
+                    
+                    grappleObjectInWorld = Instantiate(grappleObjectPrefab, grapplePosition, Quaternion.identity);
+                    playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
+                    GrappleOn(playerJoint);
+                }
+                //if (Physics.Raycast(new Ray(cameraPosition, lookingDirection), out hit))
+                //{
+                //    grappleToggle = true;
+                //    Vector3 grapplePosition = hit.point;
+                //    grappleObjectInWorld = Instantiate(grappleObjectPrefab, grapplePosition, Quaternion.identity);
+                //    playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
+                //    GrappleOn(playerJoint);
+                //}
             }
             else
             {
+                grappleToggle = false;
                 GrappleOff(playerJoint);
                 Destroy(grappleObjectInWorld);
             }
@@ -137,7 +191,11 @@ public class RollerSkaterMovement : MonoBehaviour
     {
         if (grappleToggle)
         {
-            Vector3[] positions = new Vector3[] { rigidBody.transform.position, grappleObjectInWorld.transform.position };
+            Vector3[] positions = new Vector3[] 
+            { 
+                rigidBody.transform.position, 
+                grappleObjectInWorld.transform.position 
+            };
             grappleLineRenderer.SetPositions(positions);
         }
     }
