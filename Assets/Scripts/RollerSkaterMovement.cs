@@ -54,6 +54,8 @@ public class RollerSkaterMovement : MonoBehaviour
         grappleLineRendererInWorld = Instantiate(grappleLineRendererPrefab);
         grappleLineRenderer = grappleLineRendererInWorld.GetComponent<LineRenderer>();
         grappleLineRenderer.enabled = false;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void OnMove(CallbackContext input)
@@ -113,39 +115,12 @@ public class RollerSkaterMovement : MonoBehaviour
                 }
                 if (grappleCandidate != null)
                 {
-                    Vector3 grapplePosition = new Vector3();
-                    Vector3 playerToBuilding = grappleCandidate.transform.position - rigidBody.position;
-                    playerToBuilding.y = 0.0f;
-                    playerToBuilding.Normalize();
-                    Vector3 axisForward = Vector3.Cross(Vector3.up, playerToBuilding);
-                    Vector3 axisRight = Vector3.Cross(axisForward, Vector3.up);
-                    Vector3 candidateForward = grappleCandidate.ClosestPointOnBounds(rigidBody.position + axisForward * 40.0f + Vector3.up * 40.0f);
-                    Vector3 candidateRight = grappleCandidate.ClosestPointOnBounds(rigidBody.position + axisRight * 40.0f + Vector3.up * 40.0f);
-                    float candidateForwardAngle = Vector3.Angle(testDirection, candidateForward);
-                    float candidateRightAngle = Vector3.Angle(testDirection, candidateRight);
-                    if(candidateForwardAngle < candidateRightAngle)
-                    {
-                        grapplePosition = candidateForward;
-                    }
-                    else
-                    {
-                        grapplePosition = candidateRight;
-                    }
-                    //grappleCandidate.ClosestPoint()
                     grappleToggle = true;
-                    
-                    grappleObjectInWorld = Instantiate(grappleObjectPrefab, grapplePosition, Quaternion.identity);
+                    Vector3 closestPointToBuilding = grappleCandidate.ClosestPointOnBounds(rigidBody.position + Vector3.up * 40.0f);
+                    grappleObjectInWorld = Instantiate(grappleObjectPrefab, closestPointToBuilding, Quaternion.identity);
                     playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
                     GrappleOn(playerJoint);
                 }
-                //if (Physics.Raycast(new Ray(cameraPosition, lookingDirection), out hit))
-                //{
-                //    grappleToggle = true;
-                //    Vector3 grapplePosition = hit.point;
-                //    grappleObjectInWorld = Instantiate(grappleObjectPrefab, grapplePosition, Quaternion.identity);
-                //    playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
-                //    GrappleOn(playerJoint);
-                //}
             }
             else
             {
