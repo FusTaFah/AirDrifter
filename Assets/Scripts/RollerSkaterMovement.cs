@@ -116,8 +116,29 @@ public class RollerSkaterMovement : MonoBehaviour
                 if (grappleCandidate != null)
                 {
                     grappleToggle = true;
-                    Vector3 closestPointToBuilding = grappleCandidate.ClosestPointOnBounds(rigidBody.position + Vector3.up * 40.0f);
-                    grappleObjectInWorld = Instantiate(grappleObjectPrefab, closestPointToBuilding, Quaternion.identity);
+                    Vector3 min = grappleCandidate.bounds.min;
+                    Vector3 max = grappleCandidate.bounds.max;
+                    Vector3[] boundTopPoints = new Vector3[4];
+                    boundTopPoints[0] = max;
+                    boundTopPoints[1] = new Vector3(max.x, max.y, min.z);
+                    boundTopPoints[2] = new Vector3(min.x, max.y, min.z);
+                    boundTopPoints[3] = new Vector3(min.x, max.y, max.z);
+                    float minAngle = 180.0f;
+                    Vector3 candidatePosition = max;
+                    for(int i = 0; i < 4; i++)
+                    {
+                        Vector3 fromPlayerToCandidate = boundTopPoints[i] - rigidBody.position;
+                        fromPlayerToCandidate.y = 0;
+                        fromPlayerToCandidate.Normalize();
+                        float currentAngle = Vector3.Angle(testDirection, fromPlayerToCandidate);
+                        if(currentAngle < minAngle)
+                        {
+                            candidatePosition = boundTopPoints[i];
+                            minAngle = currentAngle;
+                        }
+                    }
+                    //Vector3 closestPointToBuilding = grappleCandidate.ClosestPointOnBounds(rigidBody.position + Vector3.up * 40.0f);
+                    grappleObjectInWorld = Instantiate(grappleObjectPrefab, candidatePosition, Quaternion.identity);
                     playerJoint.connectedBody = grappleObjectInWorld.transform.GetChild(0).GetComponent<Rigidbody>();
                     GrappleOn(playerJoint);
                 }
