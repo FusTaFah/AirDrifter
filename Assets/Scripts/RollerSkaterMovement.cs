@@ -17,9 +17,9 @@ public class RollerSkaterMovement : MonoBehaviour
     [SerializeField]
     private float movementSpeed;
     [SerializeField]
-    private FloatObject maximumSkateUpSpeed;
+    private float maximumSkateUpSpeed;
     [SerializeField]
-    private FloatObject maximumSkateSpeed;
+    private float maximumSkateSpeed;
     [SerializeField]
     private float midAirDirectionalInfluence;
     [SerializeField]
@@ -37,7 +37,7 @@ public class RollerSkaterMovement : MonoBehaviour
     private GameObject grappleLineRendererPrefab;
     private GameObject grappleLineRendererInWorld;
     [SerializeField]
-    private FloatObject groundedTolerance;
+    private float groundedTolerance;
  
     private LineRenderer grappleLineRenderer;
 
@@ -97,14 +97,14 @@ public class RollerSkaterMovement : MonoBehaviour
             RaycastHit hit;
             if (!grappleToggle)
             {
-                Collider[] buildingsSurrounding = Physics.OverlapSphere(rigidBody.position + Vector3.up * 40.0f, 40.0f);
+                Collider[] buildingsSurrounding = Physics.OverlapSphere(rigidBody.position, 40.0f);
                 Vector3 directionOfMomentum = rigidBody.velocity.normalized;
                 Vector3 testDirection = lookingDirection;
                 Collider grappleCandidate = null;
                 float smallestAngle = 90.0f;
                 foreach (Collider building in buildingsSurrounding)
                 {
-                    if(building.gameObject != gameObject)
+                    if(building.gameObject.tag.Equals("hookable"))
                     {
                         Vector3 playerToBuilding = (building.transform.position - rigidBody.position).normalized;
                         float currentAngle = Vector3.Angle(testDirection, playerToBuilding);
@@ -198,7 +198,7 @@ public class RollerSkaterMovement : MonoBehaviour
 
     private void CheckGrounded()
     {
-        if (Physics.Raycast(gameObject.transform.position, Vector3.down, groundedTolerance.value))
+        if (Physics.Raycast(gameObject.transform.position, Vector3.down, groundedTolerance))
         {
             isGrounded = true;
         }
