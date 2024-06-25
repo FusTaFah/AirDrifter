@@ -225,8 +225,8 @@ MonoBehaviour:
   rigidBody: {fileID: 5598675124057089431}
   movementForce: 500
   movementSpeed: 0
-  maximumSkateUpSpeed: {fileID: 0}
-  maximumSkateSpeed: {fileID: 0}
+  maximumSkateUpSpeed: 0
+  maximumSkateSpeed: 0
   midAirDirectionalInfluence: 200
   jumpForce: 300
   playerTurnSpeed: 50
@@ -234,7 +234,7 @@ MonoBehaviour:
   modelHandler: {fileID: 2934702134090716848}
   grappleObjectPrefab: {fileID: 6338101842543391023, guid: 63778f4bfbd5cae439bbc6350aecfd6d, type: 3}
   grappleLineRendererPrefab: {fileID: 7099475432794461839, guid: 1859f794a3560ef4f893023abbbf422d, type: 3}
-  groundedTolerance: {fileID: 11400000, guid: 20eedd44ec8e43546a22dfee3c878df4, type: 2}
+  groundedTolerance: 0.02
   isGrounded: 0
 --- !u!136 &6596420778097268923
 CapsuleCollider:
