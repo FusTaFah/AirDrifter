@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cadc83260ffc48b4085c24e749c7b36b, type: 3}
+  m_Name: CityV2
+  m_EditorClassIdentifier: 
+  buildingWidth: 20.1
+  streetWidth: 65.2
+  buildingMinHeight: 20
+  buildingMaxHeight: 150
+  startPos: {x: -876, y: 0, z: 917}
+  endPos: {x: 848, y: 0, z: -928}
+  buildingPrefab: {fileID: 1055989353442876169, guid: fbc30eff544b2904fb91f3b07e7a29a9, type: 3}
